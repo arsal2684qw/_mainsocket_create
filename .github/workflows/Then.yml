@@ -1,0 +1,22 @@
+ Else
+        _GUICtrlEdit_AppendText($DEBUG , "] HTTP Proxy listening on IP :" & $IP & " Port :" & $PORT & @CRLF)
+    EndIf
+    $proxysocketssl     = TCPListen($IP,$PORTSSL)
+    If @error Then
+        _GUICtrlEdit_AppendText($DEBUG , "] Error HTTPS Proxy couldn't bind socket on IP :" & $IP & " Port :" & $PORTSSL & @CRLF)
+    Else
+        _GUICtrlEdit_AppendText($DEBUG , "] HTTPS Proxy listening on IP :" & $IP & " Port :" & $PORTSSL & @CRLF)
+    EndIf
+EndFunc
+
+
+Func _Get_Address($text)
+    If IsBinary($text) Then
+        $text = BinaryToString($text)
+    EndIf
+        $serversock=StringSplit($text , @CRLF,1)
+        For $i=1 To $serversock[0]
+            If StringLeft($serversock[$i],6)="Host: " Then
+                Return StringTrimLeft($serversock[$i],6)
+            EndIf
+        Next
